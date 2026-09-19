@@ -1,0 +1,530 @@
+<template>
+	<scroll-view class="container" scroll-y="true">
+		<!-- 盲盒主区域：包裹背景图及所有覆盖元素 -->
+		<view class="hero-stage-full">
+			<!-- 1. 背景盲盒大图 -->
+			<image class="box-bg-full-img" src="/static/盲盒.png" mode="widthFix"></image>
+
+			<!-- 2. 覆盖在图片最顶部的 Header -->
+			<view class="nav-header">
+				<text class="back-btn" @click="handleBack">‹</text>
+				<text class="nav-title">盲盒开启</text>
+				<view class="placeholder-box"></view>
+			</view>
+
+			<!-- 3. 覆盖在图片上半部的标语 -->
+			<view class="slogan-box">
+				<text class="slogan-main">请选择你想攻克下的 <text class="highlight-purple">目标大奖</text></text>
+				<text class="slogan-sub">选中后，开始抽奖后的结果会更清晰！</text>
+			</view>
+
+			<!-- 4. 悬浮在图片两侧的左右切换箭头 -->
+			<view class="arrow-btn left-arrow" @click="prevItem">
+				<text class="arrow-icon">‹</text>
+			</view>
+			<view class="arrow-btn right-arrow" @click="nextItem">
+				<text class="arrow-icon">›</text>
+			</view>
+
+			<!-- 5. 覆盖在图片底部的商品标签卡片 -->
+			<view class="prize-tag-card">
+				<text class="prize-tag-title">{{ prizeList[selectedPrizeIndex].fullName }}</text>
+				<view class="hot-badge">
+					<text class="fire-icon">🔥</text>
+					<text class="hot-text">当前最热门大奖</text>
+				</view>
+			</view>
+		</view>
+
+		<!-- 下方内边距内容区域 -->
+		<view class="content-body">
+			<!-- 6. 目标大奖选择网格 -->
+			<view class="prize-select-section">
+				<view
+					v-for="(item, index) in prizeList"
+					:key="index"
+					class="prize-item-card"
+					:class="{ 'prize-item-active': selectedPrizeIndex === index }"
+					@click="selectPrize(index)"
+				>
+					<view class="prize-img-box">
+						<image class="prize-img" :src="item.image" mode="aspectFit"></image>
+					</view>
+					<text class="prize-name">{{ item.name }}</text>
+					<view class="hot-tag">
+						<text class="hot-tag-text">热门</text>
+					</view>
+				</view>
+			</view>
+
+			<!-- 7. 本期盲盒与抽奖按钮区域 -->
+			<view class="draw-action-card">
+				<view class="card-top-info">
+					<view class="info-left">
+						<text class="box-title">本期盲盒·数码狂欢</text>
+						<view class="info-meta">
+							<view class="meta-item">
+								<text class="meta-icon">🎁</text>
+								<text class="meta-label">单价</text>
+								<text class="meta-price">¥9.9</text>
+								<text class="meta-unit">/ 次</text>
+							</view>
+							<view class="meta-item margin-l">
+								<text class="meta-icon">💎</text>
+								<text class="meta-label">官方正品</text>
+								<text class="meta-guarantee">保障</text>
+							</view>
+						</view>
+					</view>
+
+					<view class="remain-badge">
+						<text class="remain-text">剩余 <text class="remain-num">328</text> 次</text>
+					</view>
+				</view>
+
+				<!-- 渐变开启大按钮 -->
+				<view class="draw-btn" @click="startDraw">
+					<text class="draw-btn-text">¥9.9 开启盲盒 ›</text>
+				</view>
+
+				<!-- 底部保障提示 -->
+				<text class="guarantee-tips">抽中直接发货  ·  未抽中100%返还等额商城余额</text>
+			</view>
+
+			<!-- 底部防遮挡垫高区 -->
+			<view class="bottom-safe-space"></view>
+		</view>
+
+		<!-- 8. 底部 TabBar 组件 -->
+		<NeonTabBar :current="1" />
+	</scroll-view>
+</template>
+
+<script>
+import NeonTabBar from '@/components/NeonTabBar.uvue';
+
+export default {
+	components: {
+		NeonTabBar
+	},
+	data() {
+		return {
+			selectedPrizeIndex: 0,
+			prizeList: [
+				{
+					name: 'iPhone 17',
+					fullName: 'iPhone 17 (128GB)',
+					image: '/static/banaana.png'
+				},
+				{
+					name: '潮流球鞋',
+					fullName: 'Nike Dunk Low 潮流限定',
+					image: '/static/潮版手办.png'
+				},
+				{
+					name: '潮版手办',
+					fullName: '潮版手办盲盒限定手办',
+					image: '/static/美妆专区.png'
+				},
+				{
+					name: 'Switch',
+					fullName: 'Nintendo Switch OLED 版',
+					image: '/static/数码狂欢.png'
+				}
+			]
+		}
+	},
+	methods: {
+		handleBack() {
+			uni.navigateBack({
+				fail: () => {
+					uni.switchTab({ url: '/pages/index/index' });
+				}
+			});
+		},
+		selectPrize(index) {
+			this.selectedPrizeIndex = index;
+		},
+		prevItem() {
+			if (this.selectedPrizeIndex > 0) {
+				this.selectedPrizeIndex--;
+			} else {
+				this.selectedPrizeIndex = this.prizeList.length - 1;
+			}
+		},
+		nextItem() {
+			if (this.selectedPrizeIndex < this.prizeList.length - 1) {
+				this.selectedPrizeIndex++;
+			} else {
+				this.selectedPrizeIndex = 0;
+			}
+		},
+		startDraw() {
+			uni.showToast({
+				title: '正在开启盲盒...',
+				icon: 'loading'
+			});
+		}
+	}
+}
+</script>
+
+<style>
+.container {
+	flex: 1;
+	background-color: #030616;
+}
+
+/* 盲盒整体容器：开启相对定位，供内部元素绝对定位覆盖 */
+.hero-stage-full {
+	width: 100%;
+	position: relative;
+	align-items: center;
+}
+
+.box-bg-full-img {
+	width: 100%;
+	display: block;
+}
+
+/* 覆盖在顶部的 Header */
+.nav-header {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-top: 12px;
+	padding-bottom: 8px;
+	padding-left: 12px;
+	padding-right: 12px;
+	z-index: 20;
+}
+
+.back-btn {
+	font-size: 24px;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.nav-title {
+	font-size: 16px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.placeholder-box {
+	width: 24px;
+}
+
+/* 覆盖在图片上半部的标语 */
+.slogan-box {
+	position: absolute;
+	top: 48px;
+	left: 0px;
+	right: 0px;
+	flex-direction: column;
+	align-items: center;
+	z-index: 20;
+}
+
+.slogan-main {
+	font-size: 16px;
+	font-weight: 900;
+	color: #ffffff;
+}
+
+.highlight-purple {
+	color: #d8b4fe;
+	background-color: rgba(168, 85, 247, 0.35);
+	padding-left: 6px;
+	padding-right: 6px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	border-radius: 4px;
+}
+
+.slogan-sub {
+	font-size: 10px;
+	color: #a5b4fc;
+	margin-top: 4px;
+}
+
+/* 悬浮左右切换箭头 */
+.arrow-btn {
+	position: absolute;
+	top: 52%;
+	transform: translateY(-50%);
+	width: 32px;
+	height: 32px;
+	border-radius: 16px;
+	background-color: rgba(15, 23, 42, 0.65);
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(56, 189, 248, 0.6);
+	align-items: center;
+	justify-content: center;
+	z-index: 20;
+}
+
+.left-arrow {
+	left: 12px;
+}
+
+.right-arrow {
+	right: 12px;
+}
+
+.arrow-icon {
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+/* 覆盖在盲盒图片底部的文字卡片 */
+.prize-tag-card {
+	position: absolute;
+	bottom: 12px;
+	background-color: rgba(10, 15, 45, 0.85);
+	border-width: 1.5px;
+	border-style: solid;
+	border-color: #a855f7;
+	border-radius: 20px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 20px;
+	padding-right: 20px;
+	flex-direction: column;
+	align-items: center;
+	z-index: 20;
+}
+
+.prize-tag-title {
+	font-size: 14px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.hot-badge {
+	flex-direction: row;
+	align-items: center;
+	background-color: #f59e0b;
+	border-radius: 10px;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	margin-top: 3px;
+}
+
+.fire-icon {
+	font-size: 9px;
+	margin-right: 2px;
+}
+
+.hot-text {
+	font-size: 9px;
+	color: #000000;
+	font-weight: bold;
+}
+
+/* 页面主体内容内边距 */
+.content-body {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+/* 大奖选择网格 */
+.prize-select-section {
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 10px;
+	background-color: rgba(11, 17, 43, 0.8);
+	border-width: 1px;
+	border-style: solid;
+	border-color: #1e293b;
+	border-radius: 12px;
+	padding: 8px;
+}
+
+.prize-item-card {
+	flex: 1;
+	border-radius: 8px;
+	background-color: #0f172a;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #1e293b;
+	padding: 6px 4px;
+	flex-direction: column;
+	align-items: center;
+	margin-right: 6px;
+	position: relative;
+}
+
+.prize-item-card:last-child {
+	margin-right: 0;
+}
+
+.prize-item-active {
+	border-color: #ec4899;
+	background-color: #1e1b4b;
+	box-shadow: 0 0 10px rgba(236, 72, 153, 0.4);
+}
+
+.prize-img-box {
+	width: 44px;
+	height: 44px;
+	align-items: center;
+	justify-content: center;
+}
+
+.prize-img {
+	width: 100%;
+	height: 100%;
+}
+
+.prize-name {
+	font-size: 10px;
+	color: #ffffff;
+	font-weight: bold;
+	margin-top: 4px;
+	text-align: center;
+}
+
+.hot-tag {
+	background-color: #ec4899;
+	border-radius: 8px;
+	padding-left: 6px;
+	padding-right: 6px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	margin-top: 3px;
+}
+
+.hot-tag-text {
+	font-size: 7px;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+/* 抽奖操作卡片 */
+.draw-action-card {
+	margin-top: 12px;
+	background-color: rgba(11, 17, 43, 0.95);
+	border-width: 1px;
+	border-style: solid;
+	border-color: #1d2d73;
+	border-radius: 14px;
+	padding: 12px;
+}
+
+.card-top-info {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.info-left {
+	flex-direction: column;
+}
+
+.box-title {
+	font-size: 14px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.info-meta {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 6px;
+}
+
+.meta-item {
+	flex-direction: row;
+	align-items: center;
+}
+
+.margin-l {
+	margin-left: 12px;
+}
+
+.meta-icon {
+	font-size: 10px;
+	margin-right: 3px;
+}
+
+.meta-label {
+	font-size: 10px;
+	color: #94a3b8;
+	margin-right: 3px;
+}
+
+.meta-price {
+	font-size: 11px;
+	font-weight: bold;
+	color: #f59e0b;
+}
+
+.meta-unit {
+	font-size: 9px;
+	color: #94a3b8;
+}
+
+.meta-guarantee {
+	font-size: 11px;
+	font-weight: bold;
+	color: #f59e0b;
+}
+
+.remain-badge {
+	background-color: rgba(30, 41, 59, 0.8);
+	border-radius: 12px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 8px;
+	padding-right: 8px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #334155;
+}
+
+.remain-text {
+	font-size: 9px;
+	color: #94a3b8;
+}
+
+.remain-num {
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.draw-btn {
+	margin-top: 12px;
+	background: linear-gradient(90deg, #ec4899 0%, #f43f5e 50%, #f59e0b 100%);
+	border-radius: 22px;
+	height: 44px;
+	align-items: center;
+	justify-content: center;
+}
+
+.draw-btn-text {
+	font-size: 16px;
+	font-weight: 900;
+	color: #ffffff;
+	letter-spacing: 1px;
+}
+
+.guarantee-tips {
+	font-size: 8px;
+	color: #64748b;
+	text-align: center;
+	margin-top: 8px;
+}
+
+.bottom-safe-space {
+	height: 80px;
+}
+</style>

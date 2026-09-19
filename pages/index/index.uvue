@@ -1,0 +1,531 @@
+<template>
+	<scroll-view class="container" scroll-y="true">
+		<!-- 1. 独立顶部 Header -->
+		<view class="top-header">
+			<view class="logo-box">
+				<image class="logo-img" src="/static/logo1.png" mode="aspectFit"></image>
+				<view class="logo-text-box">
+					<text class="logo-title">拾界乐园</text>
+					<text class="logo-sub">SHIJIEPARADISE</text>
+				</view>
+			</view>
+
+			<view class="invite-btn" @click="handleInvite">
+				<text class="gift-icon">🎁</text>
+				<text class="invite-text">新人专享</text>
+			</view>
+		</view>
+
+		<!-- 2. Hero Banner 区域 -->
+		<view class="hero-banner-wrap">
+			<image class="banner-img" src="/static/banaana.png" mode="widthFix"></image>
+			<view class="draw-click-area" @click="handleDraw"></view>
+		</view>
+
+		<!-- 3. 实时中奖播报 -->
+		<view class="broadcast-card">
+			<view class="broadcast-item">
+				<view class="user-info">
+					<view class="user-avatar bg-avatar-1"><text class="avatar-emoji">👧</text></view>
+					<text class="user-name">用户**晴天蓝</text>
+					<text class="action-text">刚开出</text>
+					<text class="prize-text prize-blue">iPhone 15</text>
+					<text class="prize-gift">🎁</text>
+				</view>
+				<text class="time-text">2分钟前</text>
+			</view>
+
+			<view class="broadcast-item">
+				<view class="user-info">
+					<view class="user-avatar bg-avatar-2"><text class="avatar-emoji">👩</text></view>
+					<text class="user-name">用户**星辰</text>
+					<text class="action-text">刚开出</text>
+					<text class="prize-text prize-blue">充值卡 ¥50</text>
+				</view>
+				<text class="time-text">5分钟前</text>
+			</view>
+
+			<view class="broadcast-item border-none">
+				<view class="user-info">
+					<view class="user-avatar bg-avatar-3"><text class="avatar-emoji">👨</text></view>
+					<text class="user-name">用户**柠檬茶</text>
+					<text class="action-text">刚开出</text>
+					<text class="prize-text">数据线</text>
+				</view>
+				<text class="time-text">12分钟前</text>
+			</view>
+		</view>
+
+		<!-- 4. 玩法规则 / 概率公示 -->
+		<view class="rules-grid">
+			<view class="rule-card">
+				<view class="rule-icon-box">
+					<text class="rule-icon">?</text>
+				</view>
+				<view class="rule-info">
+					<text class="rule-title">玩法规则</text>
+					<text class="rule-sub">了解游戏规则与玩法</text>
+				</view>
+				<text class="rule-arrow">›</text>
+			</view>
+
+			<view class="rule-card">
+				<view class="rule-icon-box">
+					<text class="rule-icon">🛡️</text>
+				</view>
+				<view class="rule-info">
+					<text class="rule-title">概率公示</text>
+					<text class="rule-sub">公开透明 公平公正</text>
+				</view>
+				<text class="rule-arrow">›</text>
+			</view>
+		</view>
+
+		<!-- 5. 热门盲盒分类（仅展示上传图片） -->
+		<view class="section-header">
+			<view class="section-title-box">
+				<text class="fire-icon">🔥</text>
+				<text class="section-title">热门盲盒分类</text>
+			</view>
+			<text class="see-more">查看更多 ›</text>
+		</view>
+
+		<view class="category-grid">
+			<!-- 数码狂欢 -->
+			<view class="cat-card cat-blue">
+				<image class="cat-real-img" src="/static/数码狂欢.png" mode="aspectFit"></image>
+			</view>
+
+			<!-- 潮办手办 -->
+			<view class="cat-card cat-orange">
+				<image class="cat-real-img" src="/static/潮版手办.png" mode="aspectFit"></image>
+			</view>
+
+			<!-- 美妆专区 -->
+			<view class="cat-card cat-purple">
+				<image class="cat-real-img" src="/static/美妆专区.png" mode="aspectFit"></image>
+			</view>
+		</view>
+
+		<!-- 6. 限时活动·新人专享福利条 -->
+		<view class="banner-welfare">
+			<view class="welfare-left">
+				<view class="welfare-gift-icon">
+					<text class="gift-emoji">🎁</text>
+				</view>
+				<view class="welfare-info">
+					<text class="welfare-title">限时活动·新人专享福利</text>
+					<text class="welfare-sub">首次开盒立减 3 元 · 还有机会获得 iPhone 17</text>
+				</view>
+			</view>
+			<view class="btn-join">
+				<text class="btn-join-text">立即参与 ›</text>
+			</view>
+		</view>
+
+		<!-- 底部防遮挡垫高区 -->
+		<view class="bottom-safe-space"></view>
+
+		<!-- 7. 底部 TabBar -->
+		<NeonTabBar :current="0" />
+	</scroll-view>
+</template>
+
+<script>
+import NeonTabBar from '@/components/NeonTabBar.uvue';
+
+export default {
+	components: {
+		NeonTabBar
+	},
+	methods: {
+		handleDraw() {
+			uni.showToast({
+				title: '点击发起抽奖',
+				icon: 'none'
+			});
+		},
+		handleInvite() {
+			uni.showToast({
+				title: '新人专享福利',
+				icon: 'none'
+			});
+		}
+	}
+}
+</script>
+
+<style>
+.container {
+	flex: 1;
+	background-color: #030616;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+/* 1. 顶部 Header 样式 */
+.top-header {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-top: 10px;
+	padding-bottom: 8px;
+}
+
+.logo-box {
+	flex-direction: row;
+	align-items: center;
+}
+
+.logo-img {
+	width: 32px;
+	height: 32px;
+	margin-right: 8px;
+}
+
+.logo-text-box {
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.logo-title {
+	font-size: 16px;
+	font-weight: 900;
+	color: #ffffff;
+	font-style: italic;
+	letter-spacing: 1px;
+}
+
+.logo-sub {
+	font-size: 8px;
+	color: #ffffff;
+	font-weight: bold;
+	align-self: flex-start;
+	letter-spacing: 0.5px;
+	margin-top: 1px;
+}
+
+.invite-btn {
+	flex-direction: row;
+	align-items: center;
+	background-color: rgba(83, 45, 140, 0.85);
+	border-width: 1px;
+	border-style: solid;
+	border-color: #a855f7;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 8px;
+	padding-right: 8px;
+	border-radius: 14px;
+}
+
+.gift-icon {
+	font-size: 10px;
+	margin-right: 4px;
+}
+
+.invite-text {
+	font-size: 11px;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+/* 2. Hero Banner 区域 */
+.hero-banner-wrap {
+	position: relative;
+	width: 100%;
+	margin-left: -10px;
+	margin-right: -10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.banner-img {
+	width: 100%;
+	min-height: 180px;
+	display: block;
+}
+
+.draw-click-area {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 5;
+}
+
+/* 3. 中奖播报 */
+.broadcast-card {
+	position: relative;
+	z-index: 6;
+	margin-top: 12px;
+	background-color: rgba(11, 17, 43, 0.95);
+	border-width: 1px;
+	border-style: solid;
+	border-color: #1a2554;
+	border-radius: 12px;
+	padding: 10px;
+	margin-bottom: 12px;
+}
+
+.broadcast-item {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #131c42;
+}
+
+.border-none {
+	border-bottom-width: 0px;
+}
+
+.user-info {
+	flex-direction: row;
+	align-items: center;
+}
+
+.user-avatar {
+	width: 20px;
+	height: 20px;
+	border-radius: 10px;
+	align-items: center;
+	justify-content: center;
+	margin-right: 6px;
+}
+
+.bg-avatar-1 { background-color: #ff9a9e; }
+.bg-avatar-2 { background-color: #a1c4fd; }
+.bg-avatar-3 { background-color: #fbc2eb; }
+
+.avatar-emoji { font-size: 10px; }
+
+.user-name {
+	font-size: 11px;
+	color: #8f9cd0;
+	margin-right: 6px;
+}
+
+.action-text {
+	font-size: 11px;
+	color: #616c96;
+	margin-right: 6px;
+}
+
+.prize-text {
+	font-size: 11px;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.prize-blue { color: #38bdf8; }
+
+.prize-gift {
+	font-size: 10px;
+	margin-left: 2px;
+}
+
+.time-text {
+	font-size: 10px;
+	color: #4a5580;
+}
+
+/* 4. 规则网格 */
+.rules-grid {
+	flex-direction: row;
+	margin-bottom: 12px;
+}
+
+.rule-card {
+	flex: 1;
+	background-color: #0f1a4a;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #1d2d73;
+	border-radius: 12px;
+	padding: 8px;
+	flex-direction: row;
+	align-items: center;
+	margin-right: 6px;
+}
+
+.rule-icon-box {
+	width: 28px;
+	height: 28px;
+	background-color: #1a2a70;
+	border-radius: 14px;
+	align-items: center;
+	justify-content: center;
+	margin-right: 6px;
+}
+
+.rule-icon {
+	font-size: 14px;
+	color: #38bdf8;
+	font-weight: bold;
+}
+
+.rule-info {
+	flex: 1;
+	flex-direction: column;
+}
+
+.rule-title {
+	font-size: 12px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.rule-sub {
+	font-size: 8px;
+	color: #616c96;
+}
+
+.rule-arrow {
+	font-size: 12px;
+	color: #38bdf8;
+}
+
+/* 5. 热门盲盒分类（仅卡片纯图片展示） */
+.section-header {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+}
+
+.section-title-box {
+	flex-direction: row;
+	align-items: center;
+}
+
+.fire-icon {
+	font-size: 16px;
+	margin-right: 4px;
+}
+
+.section-title {
+	font-size: 16px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.see-more {
+	font-size: 11px;
+	color: #616c96;
+}
+
+.category-grid {
+	flex-direction: row;
+	margin-bottom: 12px;
+}
+
+.cat-card {
+	flex: 1;
+	border-radius: 12px;
+	padding: 4px;
+	border-width: 1px;
+	border-style: solid;
+	margin-right: 6px;
+	height: 180px;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 背景与发光边框 */
+.cat-blue {
+	background-color: #0b1a48;
+	border-color: #2563eb;
+}
+
+.cat-orange {
+	background-color: #3d141b;
+	border-color: #e11d48;
+}
+
+.cat-purple {
+	background-color: #34103c;
+	border-color: #a855f7;
+}
+
+.cat-real-img {
+	width: 100%;
+	height: 100%;
+}
+
+/* 6. 新人福利条 */
+.banner-welfare {
+	background-color: #0c1540;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #4338ca;
+	border-radius: 16px;
+	padding: 10px;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.welfare-left {
+	flex-direction: row;
+	align-items: center;
+	flex: 1;
+}
+
+.welfare-gift-icon {
+	width: 32px;
+	height: 32px;
+	background-color: #1e1b4b;
+	border-radius: 16px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #6366f1;
+	align-items: center;
+	justify-content: center;
+	margin-right: 8px;
+}
+
+.gift-emoji { font-size: 16px; }
+
+.welfare-info {
+	flex-direction: column;
+}
+
+.welfare-title {
+	font-size: 13px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.welfare-sub {
+	font-size: 8px;
+	color: #818cf8;
+	margin-top: 2px;
+}
+
+.btn-join {
+	background-color: #8b5cf6;
+	border-radius: 16px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 12px;
+	padding-right: 12px;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn-join-text {
+	font-size: 11px;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.bottom-safe-space {
+	height: 90px;
+}
+</style>

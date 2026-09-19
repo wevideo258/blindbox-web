@@ -1,0 +1,89 @@
+<template>
+	<view class="tab-bar">
+		<view class="tab-item" @click="switchTab(0, '/pages/index/index')">
+			<text class="tab-icon-emoji" :class="{ 'emoji-active': current === 0 }">🏠</text>
+			<text class="tab-text" :class="{ 'tab-text-active': current === 0 }">首页</text>
+		</view>
+
+		<view class="tab-item" @click="switchTab(1, '/pages/box/box')">
+			<text class="tab-icon-emoji" :class="{ 'emoji-active': current === 1 }">🎁</text>
+			<text class="tab-text" :class="{ 'tab-text-active': current === 1 }">盲盒</text>
+		</view>
+
+		<view class="tab-item" @click="switchTab(2, '/pages/mall/mall')">
+			<text class="tab-icon-emoji" :class="{ 'emoji-active': current === 2 }">🛍️</text>
+			<text class="tab-text" :class="{ 'tab-text-active': current === 2 }">商城</text>
+		</view>
+
+		<view class="tab-item" @click="switchTab(3, '/pages/card/card')">
+			<text class="tab-icon-emoji" :class="{ 'emoji-active': current === 3 }">🃏</text>
+			<text class="tab-text" :class="{ 'tab-text-active': current === 3 }">集卡</text>
+		</view>
+
+		<view class="tab-item" @click="switchTab(4, '/pages/user/user')">
+			<text class="tab-icon-emoji" :class="{ 'emoji-active': current === 4 }">👤</text>
+			<text class="tab-text" :class="{ 'tab-text-active': current === 4 }">我的</text>
+		</view>
+	</view>
+</template>
+
+<script setup lang="uts">
+defineProps({
+	current: {
+		type: Number,
+		default: 0
+	}
+});
+
+const switchTab = (index: number, url: string) => {
+	// 使用 reLaunch 重新加载目标页面，确保自定义 TabBar 页面平滑切换
+	uni.reLaunch({
+		url: url
+	});
+};
+</script>
+
+<style>
+.tab-bar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 65px;
+	background-color: #0b112b;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #1e293b;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	z-index: 999;
+}
+
+.tab-item {
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.tab-icon-emoji {
+	font-size: 20px;
+	margin-bottom: 2px;
+	opacity: 0.6;
+}
+
+.emoji-active {
+	opacity: 1;
+}
+
+.tab-text {
+	font-size: 10px;
+	color: #616c96;
+}
+
+.tab-text-active {
+	color: #a855f7;
+	font-weight: bold;
+}
+</style>

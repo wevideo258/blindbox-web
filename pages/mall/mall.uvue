@@ -1,0 +1,666 @@
+<template>
+	<scroll-view class="container" scroll-y="true">
+		<!-- 1. Header 顶部导航 -->
+		<view class="header-section">
+			<!-- 左侧：Logo 与品牌名 -->
+			<view class="brand-box">
+				<image class="brand-logo" src="/static/logo.png" mode="aspectFit"></image>
+				<view class="brand-text-box">
+					<text class="brand-title">盲盒乐园</text>
+				</view>
+			</view>
+
+			<!-- 中间：主标题区域 -->
+			<view class="header-center">
+				<text class="page-title">积分商城</text>
+				<text class="page-subtitle">积分当钱花 · 好物随心兑</text>
+			</view>
+		</view>
+
+		<!-- 2. 主视觉 Banner（直接替换为上传的图片） -->
+		<view class="hero-banner">
+			<image class="banner-bg" src="/static/积分商城banaana.png" mode="aspectFill"></image>
+		</view>
+
+		<view class="content-body">
+			<!-- 3. 分类导航 Grid (8个) -->
+			<view class="category-grid">
+				<view class="category-item" v-for="(cat, idx) in categories" :key="idx">
+					<view class="cat-icon-box">
+						<text class="cat-icon">{{ cat.icon }}</text>
+					</view>
+					<text class="cat-name">{{ cat.name }}</text>
+				</view>
+			</view>
+
+			<!-- 4. 积分快捷操作栏 (3列) -->
+			<view class="quick-action-bar">
+				<view class="action-item">
+					<view class="action-icon-circle gold">💰</view>
+					<view class="action-info">
+						<text class="action-title">积分余额</text>
+						<text class="action-val gold-text">12,680</text>
+					</view>
+					<text class="arrow-right">›</text>
+				</view>
+				<view class="action-item border-line">
+					<view class="action-icon-circle blue">👛</view>
+					<view class="action-info">
+						<text class="action-title">申请提现</text>
+						<text class="action-sub">1积分 = 1元</text>
+					</view>
+					<text class="arrow-right">›</text>
+				</view>
+				<view class="action-item">
+					<view class="action-icon-circle purple">🛍️</view>
+					<view class="action-info">
+						<text class="action-title">兑换商品</text>
+						<text class="action-sub">1积分 = 1元</text>
+					</view>
+					<text class="arrow-right">›</text>
+				</view>
+			</view>
+
+			<!-- 5. 热门兑换推荐 (2x4 网格) -->
+			<view class="section-container">
+				<view class="section-header">
+					<view class="section-title-box">
+						<text class="fire-icon">🔥</text>
+						<text class="section-title">热门兑换推荐</text>
+					</view>
+					<view class="more-box">
+						<text class="more-text">查看更多</text>
+						<text class="more-arrow">›</text>
+					</view>
+				</view>
+
+				<view class="goods-grid">
+					<view class="goods-card" v-for="(item, index) in recommendGoods" :key="index">
+						<!-- 热门/爆款标签 -->
+						<view class="tag-badge" :class="item.tagType" v-if="item.tag">
+							<text class="tag-text">{{ item.tag }}</text>
+						</view>
+
+						<view class="goods-img-box">
+							<image class="goods-img" :src="item.image" mode="aspectFit"></image>
+						</view>
+
+						<text class="goods-name">{{ item.name }}</text>
+						<text class="goods-sub" v-if="item.sub">{{ item.sub }}</text>
+
+						<view class="points-price-tag">
+							<text class="points-num">{{ item.points }}</text>
+							<text class="points-unit">积分</text>
+						</view>
+
+						<text class="market-price">市场参考价: ¥{{ item.marketPrice }}</text>
+
+						<view class="exchange-btn" @click="handleExchange(item)">
+							<text class="btn-icon">🛒</text>
+							<text class="btn-text">立即兑换 ›</text>
+						</view>
+					</view>
+				</view>
+			</view>
+
+			<!-- 6. 底部提现 Banner -->
+			<view class="bottom-withdraw-banner">
+				<view class="withdraw-left">
+					<view class="gift-icon-box">🎁</view>
+					<view class="withdraw-text-box">
+						<text class="withdraw-main">积分也能提现！ <text class="highlight-yellow">1积分 = 1元</text></text>
+						<text class="withdraw-sub">支持提现 / 兑换商品 / 更多惊喜等你来</text>
+					</view>
+				</view>
+				<view class="withdraw-btn">
+					<text class="withdraw-btn-text">立即提现 ›</text>
+				</view>
+			</view>
+
+			<!-- 防遮挡垫高区 -->
+			<view class="bottom-safe-space"></view>
+		</view>
+
+		<!-- 7. 底部 TabBar 组件 -->
+		<NeonTabBar :current="2" />
+	</scroll-view>
+</template>
+
+<script>
+import NeonTabBar from '@/components/NeonTabBar.uvue';
+
+export default {
+	components: {
+		NeonTabBar
+	},
+	data() {
+		return {
+			categories: [
+				{ name: '数码电器', icon: '📱' },
+				{ name: '潮流鞋服', icon: '👟' },
+				{ name: '潮玩动漫', icon: '🧸' },
+				{ name: '美妆护肤', icon: '🧴' },
+				{ name: '食品饮料', icon: '🍔' },
+				{ name: '家居生活', icon: '🏠' },
+				{ name: '会员专享', icon: '🎁' },
+				{ name: '全部分类', icon: '🔲' }
+			],
+			recommendGoods: [
+				{
+					name: 'iPhone 16',
+					sub: '(128GB)',
+					points: '5,999',
+					marketPrice: '5,999',
+					tag: '爆款',
+					tagType: 'bg-red',
+					image: '/static/iphone.png'
+				},
+				{
+					name: 'AirPods Pro 2',
+					sub: '',
+					points: '2,499',
+					marketPrice: '2,499',
+					tag: '热销',
+					tagType: 'bg-orange',
+					image: '/static/airpods.png'
+				},
+				{
+					name: 'MacBook Air M2',
+					sub: '',
+					points: '6,999',
+					marketPrice: '6,999',
+					tag: '',
+					tagType: '',
+					image: '/static/macbook.png'
+				},
+				{
+					name: '茅台飞天 53°',
+					sub: '(500ml)',
+					points: '4,999',
+					marketPrice: '4,999',
+					tag: '',
+					tagType: '',
+					image: '/static/maotai.png'
+				},
+				{
+					name: 'AJ1 经典款',
+					sub: '',
+					points: '1,299',
+					marketPrice: '1,299',
+					tag: '',
+					tagType: '',
+					image: '/static/aj1.png'
+				},
+				{
+					name: '手办·路飞',
+					sub: '(航海王)',
+					points: '799',
+					marketPrice: '799',
+					tag: '',
+					tagType: '',
+					image: '/static/luffy.png'
+				},
+				{
+					name: '雅诗兰黛护肤套装',
+					sub: '',
+					points: '1,099',
+					marketPrice: '1,099',
+					tag: '',
+					tagType: '',
+					image: '/static/esteelauder.png'
+				},
+				{
+					name: 'Lindt巧克力礼盒',
+					sub: '',
+					points: '299',
+					marketPrice: '299',
+					tag: '',
+					tagType: '',
+					image: '/static/chocolate.png'
+				}
+			]
+		};
+	},
+	methods: {
+		handleExchange(item) {
+			uni.showToast({
+				title: '兑换请求中...',
+				icon: 'none'
+			});
+		}
+	}
+};
+</script>
+
+<style>
+.container {
+	flex: 1;
+	background-color: #030616;
+}
+
+/* 1. Header 样式修正 */
+.header-section {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-top: 12px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	position: relative;
+}
+
+.brand-box {
+	flex-direction: row;
+	align-items: center;
+	flex-shrink: 0;
+}
+
+.brand-logo {
+	width: 24px;
+	height: 24px;
+}
+
+.brand-text-box {
+	flex-direction: column;
+	margin-left: 4px;
+}
+
+.brand-title {
+	font-size: 13px;
+	font-weight: 900;
+	color: #ffffff;
+	line-height: 14px;
+}
+
+.header-center {
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.page-title {
+	font-size: 15px;
+	font-weight: 900;
+	color: #ffffff;
+	line-height: 16px;
+	white-space: nowrap;
+}
+
+.page-subtitle {
+	font-size: 7px;
+	color: #818cf8;
+	margin-top: 2px;
+	white-space: nowrap;
+	transform: scale(0.95);
+}
+
+/* 2. Banner 样式 */
+.hero-banner {
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 130px; /* 适当调高展示完整的 Banner 视觉效果 */
+	position: relative;
+	border-radius: 14px;
+	overflow: hidden;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #3b82f6;
+}
+
+.banner-bg {
+	width: 100%;
+	height: 100%;
+}
+
+/* 页面内容通用外边距 */
+.content-body {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+/* 3. 分类 Grid */
+.category-grid {
+	flex-direction: row;
+	flex-wrap: wrap;
+	background-color: rgba(11, 17, 43, 0.8);
+	border-radius: 12px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-top: 10px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #1e293b;
+}
+
+.category-item {
+	width: 25%;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+.cat-icon-box {
+	width: 36px;
+	height: 36px;
+	border-radius: 18px;
+	background-color: #1e1b4b;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #6366f1;
+	align-items: center;
+	justify-content: center;
+}
+
+.cat-icon {
+	font-size: 16px;
+}
+
+.cat-name {
+	font-size: 9px;
+	color: #ffffff;
+	margin-top: 4px;
+}
+
+/* 4. 快捷操作栏 */
+.quick-action-bar {
+	flex-direction: row;
+	background-color: rgba(11, 17, 43, 0.9);
+	border-radius: 12px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-top: 10px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #1e293b;
+}
+
+.action-item {
+	flex: 1;
+	flex-direction: row;
+	align-items: center;
+	padding-left: 6px;
+	padding-right: 4px;
+}
+
+.border-line {
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-style: solid;
+	border-color: #1e293b;
+}
+
+.action-icon-circle {
+	width: 26px;
+	height: 26px;
+	border-radius: 13px;
+	align-items: center;
+	justify-content: center;
+	font-size: 13px;
+}
+
+.gold { background-color: rgba(245, 158, 11, 0.2); }
+.blue { background-color: rgba(59, 130, 246, 0.2); }
+.purple { background-color: rgba(168, 85, 247, 0.2); }
+
+.action-info {
+	flex: 1;
+	flex-direction: column;
+	margin-left: 4px;
+}
+
+.action-title {
+	font-size: 8px;
+	color: #94a3b8;
+}
+
+.action-val {
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.gold-text {
+	color: #fbbf24;
+}
+
+.action-sub {
+	font-size: 8px;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.arrow-right {
+	font-size: 11px;
+	color: #64748b;
+}
+
+/* 5. 热门兑换推荐 */
+.section-container {
+	margin-top: 12px;
+}
+
+.section-header {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+}
+
+.section-title-box {
+	flex-direction: row;
+	align-items: center;
+}
+
+.fire-icon {
+	font-size: 15px;
+	margin-right: 4px;
+}
+
+.section-title {
+	font-size: 14px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.more-box {
+	flex-direction: row;
+	align-items: center;
+}
+
+.more-text {
+	font-size: 9px;
+	color: #94a3b8;
+}
+
+.more-arrow {
+	font-size: 11px;
+	color: #94a3b8;
+	margin-left: 2px;
+}
+
+/* 商品网格 */
+.goods-grid {
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.goods-card {
+	width: 48.5%;
+	background-color: rgba(11, 17, 43, 0.85);
+	border-radius: 12px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #1e293b;
+	padding: 8px;
+	margin-bottom: 10px;
+	position: relative;
+	flex-direction: column;
+	align-items: center;
+}
+
+.tag-badge {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	border-radius: 4px;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.bg-red { background-color: #ef4444; }
+.bg-orange { background-color: #f97316; }
+
+.tag-text {
+	font-size: 7px;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.goods-img-box {
+	width: 80px;
+	height: 80px;
+	align-items: center;
+	justify-content: center;
+	margin-top: 6px;
+}
+
+.goods-img {
+	width: 100%;
+	height: 100%;
+}
+
+.goods-name {
+	font-size: 10px;
+	font-weight: bold;
+	color: #ffffff;
+	margin-top: 6px;
+	text-align: center;
+}
+
+.goods-sub {
+	font-size: 7px;
+	color: #94a3b8;
+}
+
+.points-price-tag {
+	flex-direction: row;
+	align-items: baseline;
+	background-color: #4f46e5;
+	border-radius: 12px;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin-top: 6px;
+}
+
+.points-num {
+	font-size: 11px;
+	font-weight: 900;
+	color: #ffffff;
+}
+
+.points-unit {
+	font-size: 7px;
+	color: #ffffff;
+	margin-left: 2px;
+}
+
+.market-price {
+	font-size: 7px;
+	color: #64748b;
+	margin-top: 4px;
+}
+
+.exchange-btn {
+	width: 100%;
+	height: 24px;
+	background-color: #6366f1;
+	border-radius: 12px;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin-top: 8px;
+}
+
+.btn-icon {
+	font-size: 9px;
+	margin-right: 3px;
+}
+
+.btn-text {
+	font-size: 9px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+/* 6. 底部提现 Banner */
+.bottom-withdraw-banner {
+	margin-top: 12px;
+	background: linear-gradient(90deg, #312e81 0%, #1e1b4b 100%);
+	border-radius: 12px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #6366f1;
+	padding: 8px 10px;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.withdraw-left {
+	flex-direction: row;
+	align-items: center;
+}
+
+.gift-icon-box {
+	font-size: 16px;
+	margin-right: 6px;
+}
+
+.withdraw-text-box {
+	flex-direction: column;
+}
+
+.withdraw-main {
+	font-size: 10px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.highlight-yellow {
+	color: #fbbf24;
+}
+
+.withdraw-sub {
+	font-size: 7px;
+	color: #a5b4fc;
+	margin-top: 2px;
+}
+
+.withdraw-btn {
+	background-color: #6366f1;
+	border-radius: 12px;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.withdraw-btn-text {
+	font-size: 8px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.bottom-safe-space {
+	height: 80px;
+}
+</style>

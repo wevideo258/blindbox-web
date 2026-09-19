@@ -1,0 +1,291 @@
+<template>
+	<view class="page-wrapper">
+		<scroll-view class="container" scroll-y="true">
+			<!-- 1. 核心图片区与四大系列热区 -->
+			<view class="card-page-content">
+				<!-- 整张集卡背景图 -->
+				<image class="full-bg-img" src="/static/集卡.png" mode="widthFix"></image>
+
+				<!-- 四大入口点击热区 -->
+				<view class="hotspots-grid">
+					<!-- 招财 (左上) -->
+					<view class="hotspot-item" @click="navigateToSeries('zhaocai', '招财', '/pages/card/zhaocai')"></view>
+
+					<!-- 辟邪 (右上) -->
+					<view class="hotspot-item" @click="navigateToSeries('pixie', '辟邪', '/pages/card/pixie')"></view>
+
+					<!-- 改运 (左下) -->
+					<view class="hotspot-item" @click="navigateToSeries('gaiyun', '改运', '/pages/card/gaiyun')"></view>
+
+					<!-- 神兽 (右下) -->
+					<view class="hotspot-item" @click="navigateToSeries('shenshou', '神兽', '/pages/card/shenshou')"></view>
+				</view>
+
+				<!-- 顶部返回/搜索按钮热区 -->
+				<view class="top-nav-hotspots">
+					<view class="top-back-btn" @click="goBack"></view>
+					<view class="top-search-btn" @click="onSearch"></view>
+				</view>
+			</view>
+
+			<!-- 2. 底部拓展区域：🏆 我的集卡进度（卡册完成度） -->
+			<view class="bottom-extension-section">
+
+				<!-- 集卡成就与进度卡片 -->
+				<view class="achievement-card">
+					<view class="achieve-header">
+						<view class="achieve-title-box">
+							<text class="achieve-icon">🏆</text>
+							<text class="achieve-title">我的集卡进度</text>
+						</view>
+						<!-- 显示当前收集进度，总数为 51 张 -->
+						<text class="achieve-count">12 / 51 <text class="unit">张</text></text>
+					</view>
+
+					<!-- 进度条（12/51 约为 23.5%） -->
+					<view class="progress-bar-bg">
+						<view class="progress-bar-fill" style="width: 23.5%;"></view>
+					</view>
+
+					<view class="achieve-footer">
+						<text class="achieve-tips">已收集 23.5% · 集齐套卡可解锁限定盲盒</text>
+
+						<!-- 快捷入口按钮 -->
+						<view class="shortcut-actions">
+							<view class="reward-btn" @click="onOpenBook">
+								<text class="reward-btn-text">📖 卡册图鉴</text>
+							</view>
+							<view class="reward-btn gold-btn" @click="onOpenRewards">
+								<text class="reward-btn-text gold-text">🎁 成就奖励</text>
+							</view>
+						</view>
+					</view>
+				</view>
+
+			</view>
+
+			<!-- 底部安全垫高区，防止内容被底部 TabBar 遮挡 -->
+			<view class="bottom-safe-space"></view>
+		</scroll-view>
+
+		<!-- 3. 底部导航栏组件 -->
+		<NeonTabBar :current="3" />
+	</view>
+</template>
+
+<script>
+import NeonTabBar from '@/components/NeonTabBar.uvue';
+
+export default {
+	components: {
+		NeonTabBar
+	},
+	data() {
+		return {};
+	},
+	methods: {
+		goBack() {
+			uni.navigateBack({
+				fail() {
+					uni.switchTab({ url: '/pages/index/index' });
+				}
+			});
+		},
+		onSearch() {
+			uni.showToast({ title: '搜索图鉴中...', icon: 'none' });
+		},
+		navigateToSeries(id, title, targetUrl) {
+			uni.navigateTo({
+				url: targetUrl,
+				fail() {
+					uni.showToast({ title: `正在进入【${title}】集卡页面`, icon: 'none' });
+				}
+			});
+		},
+		onOpenBook() {
+			uni.showToast({ title: '打开卡册图鉴中...', icon: 'none' });
+		},
+		onOpenRewards() {
+			uni.showToast({ title: '打开成就奖励页...', icon: 'none' });
+		}
+	}
+};
+</script>
+
+<style>
+/* 页面主框架 */
+.page-wrapper {
+	flex: 1;
+	background-color: #030616;
+	position: relative;
+}
+
+.container {
+	flex: 1;
+	width: 100%;
+}
+
+/* 核心内容区 */
+.card-page-content {
+	position: relative;
+	width: 100%;
+}
+
+/* 背景大图 */
+.full-bg-img {
+	width: 100%;
+	display: block;
+}
+
+/* 顶部导航热区 */
+.top-nav-hotspots {
+	position: absolute;
+	top: 10px;
+	left: 0;
+	right: 0;
+	height: 50px;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.top-back-btn, .top-search-btn {
+	width: 40px;
+	height: 40px;
+}
+
+/* 2x2 热区覆盖四大系列卡片 */
+.hotspots-grid {
+	position: absolute;
+	top: 24%;
+	left: 3%;
+	right: 3%;
+	bottom: 2%;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: space-between;
+}
+
+.hotspot-item {
+	width: 48%;
+	height: 47%;
+	border-radius: 16px;
+}
+
+/* 底部扩展区域 */
+.bottom-extension-section {
+	padding-left: 12px;
+	padding-right: 12px;
+	margin-top: 10px;
+}
+
+/* 🏆 我的集卡进度卡片 */
+.achievement-card {
+	background-color: rgba(15, 23, 42, 0.9);
+	border-radius: 14px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #3b82f6;
+	padding: 12px 14px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.achieve-header {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.achieve-title-box {
+	flex-direction: row;
+	align-items: center;
+}
+
+.achieve-icon {
+	font-size: 16px;
+	margin-right: 6px;
+}
+
+.achieve-title {
+	font-size: 13px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.achieve-count {
+	font-size: 14px;
+	font-weight: 900;
+	color: #60a5fa;
+}
+
+.unit {
+	font-size: 9px;
+	color: #94a3b8;
+	margin-left: 2px;
+}
+
+/* 渐变霓虹进度条 */
+.progress-bar-bg {
+	height: 8px;
+	background-color: #1e293b;
+	border-radius: 4px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+
+.progress-bar-fill {
+	height: 100%;
+	background: linear-gradient(90deg, #3b82f6 0%, #a855f7 100%);
+	border-radius: 4px;
+}
+
+.achieve-footer {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.achieve-tips {
+	font-size: 9px;
+	color: #94a3b8;
+}
+
+/* 快捷入口按钮组 */
+.shortcut-actions {
+	flex-direction: row;
+	align-items: center;
+}
+
+.reward-btn {
+	background-color: rgba(59, 130, 246, 0.2);
+	border-radius: 12px;
+	padding: 3px 8px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #60a5fa;
+	margin-left: 6px;
+}
+
+.reward-btn-text {
+	font-size: 9px;
+	color: #93c5fd;
+	font-weight: bold;
+}
+
+.gold-btn {
+	background-color: rgba(245, 158, 11, 0.2);
+	border-color: #f59e0b;
+}
+
+.gold-text {
+	color: #fbbf24;
+}
+
+.bottom-safe-space {
+	height: 80px;
+}
+</style>
