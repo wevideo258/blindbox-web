@@ -9,16 +9,16 @@
 				<!-- 四大入口点击热区 -->
 				<view class="hotspots-grid">
 					<!-- 招财 (左上) -->
-					<view class="hotspot-item" @click="navigateToSeries('zhaocai', '招财', '/pages/card/zhaocai')"></view>
+					<view class="hotspot-item" @click="navigateToSeries('zhaocai', '招财', '/pages/card/zhaocai/zhaocai')"></view>
 
 					<!-- 辟邪 (右上) -->
-					<view class="hotspot-item" @click="navigateToSeries('pixie', '辟邪', '/pages/card/pixie')"></view>
+					<view class="hotspot-item" @click="navigateToSeries('pixie', '辟邪', '/pages/card/pixie/pixie')"></view>
 
 					<!-- 改运 (左下) -->
-					<view class="hotspot-item" @click="navigateToSeries('gaiyun', '改运', '/pages/card/gaiyun')"></view>
+					<view class="hotspot-item" @click="navigateToSeries('gaiyun', '改运', '/pages/card/gaiyun/gaiyun')"></view>
 
 					<!-- 神兽 (右下) -->
-					<view class="hotspot-item" @click="navigateToSeries('shenshou', '神兽', '/pages/card/shenshou')"></view>
+					<view class="hotspot-item" @click="navigateToSeries('shenshou', '神兽', '/pages/card/shenshou/shenshou')"></view>
 				</view>
 
 				<!-- 顶部返回/搜索按钮热区 -->
@@ -48,15 +48,15 @@
 					</view>
 
 					<view class="achieve-footer">
-						<text class="achieve-tips">已收集 23.5% · 集齐套卡可解锁限定盲盒</text>
+						<text class="achieve-tips">已收集 23.5% · 集齐套卡可兑换商品</text>
 
 						<!-- 快捷入口按钮 -->
 						<view class="shortcut-actions">
 							<view class="reward-btn" @click="onOpenBook">
-								<text class="reward-btn-text">📖 卡册图鉴</text>
+								<text class="reward-btn-text">📖 卡集</text>
 							</view>
 							<view class="reward-btn gold-btn" @click="onOpenRewards">
-								<text class="reward-btn-text gold-text">🎁 成就奖励</text>
+								<text class="reward-btn-text gold-text">🎁 奖励</text>
 							</view>
 						</view>
 					</view>
@@ -97,8 +97,9 @@ export default {
 		navigateToSeries(id, title, targetUrl) {
 			uni.navigateTo({
 				url: targetUrl,
-				fail() {
-					uni.showToast({ title: `正在进入【${title}】集卡页面`, icon: 'none' });
+				fail(err) {
+					console.log('跳转失败报错信息：', err);
+					uni.showToast({ title: `跳转失败，请检查 pages.json 路由`, icon: 'none' });
 				}
 			});
 		},

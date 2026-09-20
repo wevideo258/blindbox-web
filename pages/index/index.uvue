@@ -5,14 +5,15 @@
 			<view class="logo-box">
 				<image class="logo-img" src="/static/logo1.png" mode="aspectFit"></image>
 				<view class="logo-text-box">
-					<text class="logo-title">拾界乐园</text>
+					<text class="logo-title">拾界</text>
 					<text class="logo-sub">SHIJIEPARADISE</text>
 				</view>
 			</view>
 
+			<!-- 右上角邀请有礼按钮 -->
 			<view class="invite-btn" @click="handleInvite">
 				<text class="gift-icon">🎁</text>
-				<text class="invite-text">新人专享</text>
+				<text class="invite-text">邀请有礼</text>
 			</view>
 		</view>
 
@@ -22,38 +23,31 @@
 			<view class="draw-click-area" @click="handleDraw"></view>
 		</view>
 
-		<!-- 3. 实时中奖播报 -->
+		<!-- 3. 实时中奖播报 (上下循环滚动，固定显示3条) -->
 		<view class="broadcast-card">
-			<view class="broadcast-item">
-				<view class="user-info">
-					<view class="user-avatar bg-avatar-1"><text class="avatar-emoji">👧</text></view>
-					<text class="user-name">用户**晴天蓝</text>
-					<text class="action-text">刚开出</text>
-					<text class="prize-text prize-blue">iPhone 15</text>
-					<text class="prize-gift">🎁</text>
-				</view>
-				<text class="time-text">2分钟前</text>
-			</view>
-
-			<view class="broadcast-item">
-				<view class="user-info">
-					<view class="user-avatar bg-avatar-2"><text class="avatar-emoji">👩</text></view>
-					<text class="user-name">用户**星辰</text>
-					<text class="action-text">刚开出</text>
-					<text class="prize-text prize-blue">充值卡 ¥50</text>
-				</view>
-				<text class="time-text">5分钟前</text>
-			</view>
-
-			<view class="broadcast-item border-none">
-				<view class="user-info">
-					<view class="user-avatar bg-avatar-3"><text class="avatar-emoji">👨</text></view>
-					<text class="user-name">用户**柠檬茶</text>
-					<text class="action-text">刚开出</text>
-					<text class="prize-text">数据线</text>
-				</view>
-				<text class="time-text">12分钟前</text>
-			</view>
+			<swiper class="broadcast-swiper" :autoplay="true" :interval="3000" :duration="500" :vertical="true" :circular="true">
+				<swiper-item v-for="(group, gIdx) in broadcastGroups" :key="gIdx">
+					<view class="broadcast-group">
+						<view
+							class="broadcast-item"
+							v-for="(item, index) in group"
+							:key="index"
+							:class="{ 'border-none': index === group.length - 1 }"
+						>
+							<view class="user-info">
+								<view class="user-avatar" :class="item.avatarBg">
+									<text class="avatar-emoji">{{ item.emoji }}</text>
+								</view>
+								<text class="user-name">{{ item.userName }}</text>
+								<text class="action-text">刚开出</text>
+								<text class="prize-text" :class="{ 'prize-blue': item.isBlue }">{{ item.prize }}</text>
+								<text class="prize-gift" v-if="item.hasGift">🎁</text>
+							</view>
+							<text class="time-text">{{ item.time }}</text>
+						</view>
+					</view>
+				</swiper-item>
+			</swiper>
 		</view>
 
 		<!-- 4. 玩法规则 / 概率公示 -->
@@ -81,7 +75,7 @@
 			</view>
 		</view>
 
-		<!-- 5. 热门盲盒分类（仅展示上传图片） -->
+		<!-- 5. 热门盲盒分类 -->
 		<view class="section-header">
 			<view class="section-title-box">
 				<text class="fire-icon">🔥</text>
@@ -108,14 +102,14 @@
 		</view>
 
 		<!-- 6. 限时活动·新人专享福利条 -->
-		<view class="banner-welfare">
+		<view class="banner-welfare" @click="handleInvite">
 			<view class="welfare-left">
 				<view class="welfare-gift-icon">
 					<text class="gift-emoji">🎁</text>
 				</view>
 				<view class="welfare-info">
-					<text class="welfare-title">限时活动·新人专享福利</text>
-					<text class="welfare-sub">首次开盒立减 3 元 · 还有机会获得 iPhone 17</text>
+					<text class="welfare-title">限时活动·邀请有礼</text>
+					<text class="welfare-sub">成功邀请3人，立马获得一次免费抽盒</text>
 				</view>
 			</view>
 			<view class="btn-join">
@@ -138,6 +132,71 @@ export default {
 	components: {
 		NeonTabBar
 	},
+	data() {
+		return {
+			// 6条中奖信息，每3条分为一组轮播显示
+			broadcastGroups: [
+				[
+					{
+						userName: '用户**晴天蓝',
+						avatarBg: 'bg-avatar-1',
+						emoji: '👧',
+						prize: 'iPhone 15',
+						isBlue: true,
+						hasGift: true,
+						time: '2分钟前'
+					},
+					{
+						userName: '用户**星辰',
+						avatarBg: 'bg-avatar-2',
+						emoji: '👩',
+						prize: '充值卡 ¥50',
+						isBlue: true,
+						hasGift: false,
+						time: '5分钟前'
+					},
+					{
+						userName: '用户**柠檬茶',
+						avatarBg: 'bg-avatar-3',
+						emoji: '👨',
+						prize: '数据线',
+						isBlue: false,
+						hasGift: false,
+						time: '12分钟前'
+					}
+				],
+				[
+					{
+						userName: '用户**追风少年',
+						avatarBg: 'bg-avatar-2',
+						emoji: '👦',
+						prize: 'AirPods Pro 2',
+						isBlue: true,
+						hasGift: true,
+						time: '15分钟前'
+					},
+					{
+						userName: '用户**小软糖',
+						avatarBg: 'bg-avatar-1',
+						emoji: '👩',
+						prize: '盲盒代金券 ¥100',
+						isBlue: true,
+						hasGift: false,
+						time: '18分钟前'
+					},
+					{
+						userName: '用户**极客小强',
+						avatarBg: 'bg-avatar-3',
+						emoji: '👨',
+						prize: '赛博朋克手办',
+						isBlue: false,
+						hasGift: false,
+						time: '22分钟前'
+					}
+				]
+			]
+		};
+	},
 	methods: {
 		handleDraw() {
 			uni.showToast({
@@ -146,9 +205,15 @@ export default {
 			});
 		},
 		handleInvite() {
-			uni.showToast({
-				title: '新人专享福利',
-				icon: 'none'
+			uni.navigateTo({
+				url: '/pages/invite/invite',
+				fail(err) {
+					console.log('跳转失败报错：', err);
+					uni.showToast({
+						title: '跳转邀请页面失败，请确认 pages.json 配置',
+						icon: 'none'
+					});
+				}
 			});
 		}
 	}
@@ -265,16 +330,28 @@ export default {
 	border-style: solid;
 	border-color: #1a2554;
 	border-radius: 12px;
-	padding: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 	margin-bottom: 12px;
 }
 
+.broadcast-swiper {
+	height: 108px; /* 单项约36px * 3条 = 108px */
+}
+
+.broadcast-group {
+	flex-direction: column;
+	height: 100%;
+	justify-content: space-around;
+}
+
 .broadcast-item {
+	height: 36px;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	padding-top: 6px;
-	padding-bottom: 6px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #131c42;
@@ -390,7 +467,7 @@ export default {
 	color: #38bdf8;
 }
 
-/* 5. 热门盲盒分类（仅卡片纯图片展示） */
+/* 5. 热门盲盒分类 */
 .section-header {
 	flex-direction: row;
 	justify-content: space-between;

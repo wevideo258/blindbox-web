@@ -1,10 +1,13 @@
 <template>
 	<view class="login-container">
+		<!-- 顶部背景图 -->
+		<image class="top-bg-img" src="/static/user背景.png" mode="widthFix"></image>
+
 		<!-- 头部 Logo 与标语 -->
 		<view class="header-section">
-			<!-- 替换为 static/logo1.png 图片容器 -->
+			<!-- 缩小后的 Logo 展示 -->
 			<view class="logo-box">
-				<image class="logo-img" src="/static/logo1.png" mode="aspectFill"></image>
+				<image class="logo-img" src="/static/logo1.png" mode="widthFix"></image>
 			</view>
 			<text class="main-title">欢迎来到拾界</text>
 			<text class="sub-title">开启你的专属收藏之旅</text>
@@ -115,40 +118,42 @@ const thirdLogin = (type: string) => {
 <style>
 .login-container {
 	flex: 1;
-	/* 整个页面背景使用暗黑科技风渐变色 */
-	background-image: linear-gradient(to bottom, #090e28, #030616, #02030a);
+	position: relative;
+	/* 渐变霓虹深暗背景 */
+	background-image: linear-gradient(160deg, #180928 0%, #030616 50%, #081c2f 100%);
 	padding: 40px 24px 20px 24px;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
 }
 
+/* 顶部 user背景 图样式 */
+.top-bg-img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	opacity: 0.65;
+	z-index: 0;
+}
+
 /* 头部样式 */
 .header-section {
 	align-items: center;
 	margin-top: 20px;
+	z-index: 1;
 }
 
-/* Logo 图片外框及尺寸设置 */
+/* 缩小后的 Logo 尺寸设置 */
 .logo-box {
-	width: 140px;
-	height: 80px;
-	border-radius: 16px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #3b82f6;
-	background-color: #0b112b;
-	overflow: hidden;
-	justify-content: center;
+	width: 160px;
+	margin-bottom: 12px;
 	align-items: center;
-	margin-bottom: 20px;
-	/* 加一层淡淡的发光效果 */
-	box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+	justify-content: center;
 }
 
 .logo-img {
 	width: 100%;
-	height: 100%;
 }
 
 .main-title {
@@ -166,14 +171,15 @@ const thirdLogin = (type: string) => {
 /* 表单样式 */
 .form-section {
 	width: 100%;
+	z-index: 1;
 }
 
 .input-item {
 	height: 50px;
-	background-color: rgba(15, 23, 42, 0.8);
+	background-color: rgba(15, 23, 42, 0.65);
 	border-width: 1px;
 	border-style: solid;
-	border-color: #1e293b;
+	border-color: rgba(99, 102, 241, 0.25);
 	border-radius: 25px;
 	flex-direction: row;
 	align-items: center;
@@ -199,7 +205,7 @@ const thirdLogin = (type: string) => {
 .code-btn {
 	border-left-width: 1px;
 	border-left-style: solid;
-	border-left-color: #334155;
+	border-left-color: rgba(51, 65, 85, 0.8);
 	padding-left: 12px;
 }
 
@@ -215,6 +221,7 @@ const thirdLogin = (type: string) => {
 	justify-content: center;
 	align-items: center;
 	margin-top: 10px;
+	box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35);
 }
 
 .submit-btn-text {
@@ -227,6 +234,7 @@ const thirdLogin = (type: string) => {
 .third-party-section {
 	width: 100%;
 	align-items: center;
+	z-index: 1;
 }
 
 .divider-box {
@@ -238,7 +246,7 @@ const thirdLogin = (type: string) => {
 .divider-line {
 	flex: 1;
 	height: 1px;
-	background-color: #1e293b;
+	background-color: rgba(30, 41, 59, 0.8);
 }
 
 .divider-text {
@@ -263,10 +271,10 @@ const thirdLogin = (type: string) => {
 	border-radius: 24px;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #38bdf8;
+	border-color: rgba(56, 189, 248, 0.5);
 	justify-content: center;
 	align-items: center;
-	background-color: #0b112b;
+	background-color: rgba(11, 17, 43, 0.8);
 	margin-bottom: 6px;
 }
 
@@ -284,6 +292,7 @@ const thirdLogin = (type: string) => {
 	flex-direction: row;
 	align-items: center;
 	margin-bottom: 10px;
+	z-index: 1;
 }
 
 .checkbox-icon {

@@ -1,70 +1,89 @@
 <template>
 	<scroll-view class="container" scroll-y="true">
-		<!-- 1. 顶栏 Header -->
-		<view class="nav-bar">
-			<view class="nav-left" @click="goBack">
-				<text class="back-arrow">‹</text>
-				<text class="nav-title">个人中心</text>
-			</view>
-			<view class="nav-right">
-				<view class="icon-btn" @click="onCalendar">
-					<text class="nav-icon">📅</text>
-				</view>
-				<view class="icon-btn" @click="onSettings">
-					<text class="nav-icon">⚙️</text>
-				</view>
-			</view>
+		<!-- 顶部赛博背景图 -->
+		<view class="top-bg-container">
+			<image class="top-bg-img" src="/static/user背景.png" mode="aspectFill"></image>
+			<!-- 底部渐变遮罩 -->
+			<view class="top-bg-mask"></view>
 		</view>
 
-		<view class="content-body">
+		<view class="top-header-area">
+			<!-- 1. 顶栏 Header -->
+			<view class="nav-bar">
+				<view class="nav-left" @click="goBack">
+					<text class="back-arrow">‹</text>
+					<text class="nav-title">个人中心</text>
+				</view>
+				<view class="nav-right">
+					<view class="icon-btn" @click="onCalendar">
+						<text class="nav-icon">📅</text>
+					</view>
+					<view class="icon-btn" @click="onSettings">
+						<text class="nav-icon">⚙️</text>
+					</view>
+				</view>
+			</view>
+
 			<!-- 2. 用户信息头部 -->
 			<view class="user-profile-section">
 				<view class="avatar-wrap">
-					<image class="avatar-img" src="/static/logo.png" mode="aspectFill"></image>
+					<image class="avatar-img" src="/static/用户头像.png" mode="aspectFill"></image>
 				</view>
 
 				<view class="user-info">
 					<view class="name-row">
-						<text class="user-name">bebox_用户</text>
-						<text class="verified-icon">🛡️</text>
+						<text class="user-name">ShiJieBok</text>
+						<!-- 蓝色圆底✓认证标识 -->
+						<view class="verify-badge">
+							<text class="verify-check">✓</text>
+						</view>
 					</view>
 					<text class="user-id">ID: 12345678</text>
 					<view class="v2-tag">
-						<text class="v2-text">💎 V2</text>
+						<image class="v2-icon-img" src="/static/V2.png" mode="aspectFit"></image>
+						<text class="v2-text">V2</text>
 					</view>
 				</view>
 
 				<view class="slogan-box">
 					<text class="slogan-main">More Than</text>
 					<text class="slogan-sub">A Figure</text>
-					<text class="slogan-brand">Soulara</text>
+					<text class="slogan-brand">SBebox</text>
 				</view>
 			</view>
+		</view>
 
-			<!-- 3. 会员等级/经验进度卡片 -->
+		<view class="content-body">
+			<!-- 3. 会员等级/经验进度卡片（向上稍作移动） -->
 			<view class="vip-level-card">
+				<image class="vip-card-bg" src="/static/会员对话框背景.png" mode="scaleToFill"></image>
+
 				<view class="level-badge-box">
-					<text class="level-v2-icon">👑 V2</text>
+					<image class="level-v2-img" src="/static/V2.png" mode="aspectFit"></image>
 				</view>
 				<view class="level-info">
 					<view class="level-header">
 						<text class="level-title">👑 青铜会员</text>
 						<text class="arrow-icon">›</text>
 					</view>
-					<text class="level-desc">当前 <text class="highlight-white">99/99</text> 经验 · 距离 V3 还差 <text class="highlight-white">1,900</text> 经验</text>
+					<view class="desc-row">
+						<text class="level-desc">当前 <text class="highlight-white">99/99</text> 经验 · 距离 V3 还差 <text class="highlight-white">1,900</text> 经验</text>
+					</view>
 
 					<!-- 进度条 -->
-					<view class="progress-bar-container">
-						<view class="progress-fill" style="width: 99%;"></view>
+					<view class="progress-row">
+						<view class="progress-bar-container">
+							<view class="progress-fill" style="width: 99%;"></view>
+						</view>
+						<text class="progress-percent">99%</text>
 					</view>
 				</view>
-				<text class="progress-percent">99%</text>
 			</view>
 
 			<!-- 4. 资产/积分/卡片 3 列 Grid -->
 			<view class="assets-grid">
 				<!-- 左列：提现余额 -->
-				<view class="asset-card">
+				<view class="asset-card asset-card-glow-purple">
 					<view class="card-head">
 						<text class="head-icon purple-bg">💳</text>
 						<text class="head-title">提现余额</text>
@@ -82,7 +101,7 @@
 				</view>
 
 				<!-- 中列：商城积分 -->
-				<view class="asset-card">
+				<view class="asset-card asset-card-glow-blue">
 					<view class="card-head">
 						<text class="head-icon blue-bg">💎</text>
 						<text class="head-title">商城积分</text>
@@ -103,7 +122,7 @@
 				</view>
 
 				<!-- 右列：我的卡片 -->
-				<view class="asset-card">
+				<view class="asset-card asset-card-glow-blue">
 					<view class="card-head">
 						<text class="head-icon blue-card-bg">🃏</text>
 						<text class="head-title">我的卡片</text>
@@ -127,9 +146,7 @@
 
 			<!-- 5. 黄金开通会员 Banner -->
 			<view class="vip-upgrade-banner" @click="onBuyVip">
-				<view class="gold-badge">
-					<text class="gold-badge-text">V2</text>
-				</view>
+				<image class="gold-badge-img" src="/static/年度会员.png" mode="aspectFit"></image>
 				<view class="banner-text-box">
 					<text class="banner-title">开通 ¥298 年会员</text>
 					<text class="banner-sub">享15%佣金 / 双倍经验</text>
@@ -139,9 +156,9 @@
 				</view>
 			</view>
 
-			<!-- 6. 社区代理/股东入口 Banner -->
+			<!-- 6. 社区代理入口 Banner -->
 			<view class="agent-banner" @click="onAgentApply">
-				<text class="gift-icon-box">🎁</text>
+				<image class="agent-badge-img" src="/static/代理.png" mode="aspectFit"></image>
 				<view class="agent-text-box">
 					<text class="agent-title">申请 ¥2,998 社区代理</text>
 					<text class="agent-sub">团队收益 · 平台分红 · 更多权益</text>
@@ -264,8 +281,11 @@ const onCardMarket = () => {
 	uni.showToast({ title: '打开卡片集市', icon: 'none' });
 };
 
+// 【已修改】跳转到年度会员详情页
 const onBuyVip = () => {
-	uni.showToast({ title: '跳转VIP购买', icon: 'none' });
+	uni.navigateTo({
+		url: '/pages/user/vip-detail'
+	});
 };
 
 const onAgentApply = () => {
@@ -286,20 +306,51 @@ const onMenuClick = (title: string) => {
 </script>
 
 <style>
+/* 样式保留不变 */
 .container {
 	flex: 1;
 	background-color: #030616;
+	position: relative;
 }
 
-/* 顶栏 */
+.top-bg-container {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	height: 190px;
+	z-index: 0;
+}
+
+.top-bg-img {
+	width: 100%;
+	height: 100%;
+}
+
+.top-bg-mask {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 50px;
+	background: linear-gradient(to bottom, rgba(3, 6, 22, 0) 0%, #030616 100%);
+}
+
+.top-header-area {
+	position: relative;
+	z-index: 1;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 .nav-bar {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
 	padding-top: 20px;
 	padding-bottom: 8px;
-	padding-left: 12px;
-	padding-right: 12px;
+	padding-left: 2px;
+	padding-right: 2px;
 }
 
 .nav-left {
@@ -310,7 +361,7 @@ const onMenuClick = (title: string) => {
 .back-arrow {
 	font-size: 22px;
 	color: #ffffff;
-	margin-right: 6px;
+	margin-right: 4px;
 }
 
 .nav-title {
@@ -333,38 +384,40 @@ const onMenuClick = (title: string) => {
 }
 
 .content-body {
+	position: relative;
+	z-index: 1;
 	padding-left: 10px;
 	padding-right: 10px;
-	padding-bottom: 110px; /* 留足底部 TabBar 遮挡区域 */
+	padding-bottom: 110px;
 }
 
-/* 用户信息区 */
 .user-profile-section {
 	flex-direction: row;
 	align-items: center;
 	padding-top: 8px;
-	padding-bottom: 12px;
+	padding-bottom: 4px;
 	position: relative;
 }
 
 .avatar-wrap {
-	width: 54px;
-	height: 54px;
-	border-radius: 27px;
+	width: 72px;
+	height: 72px;
+	border-radius: 36px;
 	border-width: 2px;
 	border-style: solid;
 	border-color: #a855f7;
 	padding: 2px;
+	background-color: rgba(3, 6, 22, 0.3);
 }
 
 .avatar-img {
 	width: 100%;
 	height: 100%;
-	border-radius: 25px;
+	border-radius: 34px;
 }
 
 .user-info {
-	margin-left: 10px;
+	margin-left: 12px;
 	flex-direction: column;
 }
 
@@ -374,36 +427,57 @@ const onMenuClick = (title: string) => {
 }
 
 .user-name {
-	font-size: 14px;
+	font-size: 16px;
 	font-weight: bold;
 	color: #ffffff;
 }
 
-.verified-icon {
-	font-size: 11px;
-	margin-left: 4px;
+.verify-badge {
+	width: 14px;
+	height: 14px;
+	border-radius: 7px;
+	background-color: #0095f6;
+	align-items: center;
+	justify-content: center;
+	margin-left: 5px;
+}
+
+.verify-check {
+	font-size: 9px;
+	color: #ffffff;
+	font-weight: bold;
+	line-height: 14px;
+	text-align: center;
 }
 
 .user-id {
-	font-size: 9px;
-	color: #94a3b8;
+	font-size: 10px;
+	color: #cbd5e1;
 	margin-top: 2px;
 }
 
 .v2-tag {
-	background-color: rgba(168, 85, 247, 0.25);
-	border-radius: 8px;
+	background-color: rgba(254, 240, 138, 0.9);
+	border-radius: 10px;
 	padding-left: 6px;
-	padding-right: 6px;
-	padding-top: 1px;
-	padding-bottom: 1px;
-	margin-top: 3px;
+	padding-right: 8px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin-top: 5px;
 	align-self: flex-start;
+	flex-direction: row;
+	align-items: center;
+}
+
+.v2-icon-img {
+	width: 12px;
+	height: 12px;
+	margin-right: 3px;
 }
 
 .v2-text {
-	font-size: 8px;
-	color: #c084fc;
+	font-size: 9px;
+	color: #713f12;
 	font-weight: bold;
 }
 
@@ -416,54 +490,67 @@ const onMenuClick = (title: string) => {
 }
 
 .slogan-main {
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 900;
 	color: #38bdf8;
 	font-style: italic;
 }
 
 .slogan-sub {
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: bold;
 	color: #818cf8;
 	font-style: italic;
 }
 
 .slogan-brand {
-	font-size: 7px;
-	color: #64748b;
+	font-size: 8px;
+	color: #38bdf8;
 }
 
-/* 会员等级卡片 */
 .vip-level-card {
-	background: linear-gradient(90deg, #3b0764 0%, #1e1b4b 100%);
+	position: relative;
+	overflow: hidden;
 	border-radius: 12px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #818cf8;
-	padding: 10px 12px;
+	padding-top: 18px;
+	padding-bottom: 20px;
+	padding-left: 14px;
+	padding-right: 14px;
+	min-height: 105px;
 	flex-direction: row;
 	align-items: center;
-	margin-bottom: 10px;
+	margin-top: -8px;
+	margin-bottom: 2px;
+	background-color: transparent;
+}
+
+.vip-card-bg {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
 }
 
 .level-badge-box {
-	width: 42px;
-	height: 42px;
-	border-radius: 21px;
-	background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
-	align-items: center;
+	position: relative;
+	z-index: 1;
+	margin-right: 12px;
 	justify-content: center;
-	margin-right: 10px;
+	align-items: center;
 }
 
-.level-v2-icon {
-	font-size: 11px;
-	font-weight: 900;
-	color: #ffffff;
+.level-v2-img {
+	width: 58px;
+	height: 58px;
 }
 
 .level-info {
+	position: relative;
+	z-index: 1;
 	flex: 1;
 	flex-direction: column;
 }
@@ -474,7 +561,7 @@ const onMenuClick = (title: string) => {
 }
 
 .level-title {
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: bold;
 	color: #ffffff;
 }
@@ -485,10 +572,15 @@ const onMenuClick = (title: string) => {
 	margin-left: 4px;
 }
 
+.desc-row {
+	margin-top: 4px;
+	margin-bottom: 8px;
+}
+
 .level-desc {
-	font-size: 8px;
-	color: #a5b4fc;
-	margin-top: 2px;
+	font-size: 9px;
+	color: #c7d2fe;
+	line-height: 13px;
 }
 
 .highlight-white {
@@ -496,11 +588,17 @@ const onMenuClick = (title: string) => {
 	font-weight: bold;
 }
 
+.progress-row {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 2px;
+}
+
 .progress-bar-container {
-	height: 5px;
-	background-color: #1e293b;
+	flex: 1;
+	height: 6px;
+	background-color: rgba(15, 23, 42, 0.6);
 	border-radius: 3px;
-	margin-top: 6px;
 	overflow: hidden;
 }
 
@@ -511,28 +609,41 @@ const onMenuClick = (title: string) => {
 }
 
 .progress-percent {
-	font-size: 8px;
-	color: #38bdf8;
-	margin-left: 6px;
+	font-size: 9px;
+	color: #ffffff;
+	margin-left: 8px;
 	font-weight: bold;
 }
 
-/* 资产 3列卡片 */
 .assets-grid {
 	flex-direction: row;
 	justify-content: space-between;
-	margin-bottom: 10px;
+	margin-top: -2px;
+	margin-bottom: 12px;
+	position: relative;
+	z-index: 2;
 }
 
 .asset-card {
 	width: 32%;
-	background-color: rgba(11, 17, 43, 0.85);
+	background-color: rgba(11, 17, 43, 0.9);
 	border-radius: 12px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #1e293b;
 	padding: 8px;
 	flex-direction: column;
+}
+
+.asset-card-glow-purple {
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(168, 85, 247, 0.6);
+	box-shadow: 0 0 10px rgba(168, 85, 247, 0.35);
+}
+
+.asset-card-glow-blue {
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(56, 189, 248, 0.6);
+	box-shadow: 0 0 10px rgba(56, 189, 248, 0.35);
 }
 
 .card-head {
@@ -630,7 +741,6 @@ const onMenuClick = (title: string) => {
 	font-weight: bold;
 }
 
-/* 黄金 VIP Banner */
 .vip-upgrade-banner {
 	background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
 	border-radius: 12px;
@@ -641,55 +751,44 @@ const onMenuClick = (title: string) => {
 	margin-bottom: 10px;
 }
 
-.gold-badge {
-	width: 32px;
-	height: 32px;
-	border-radius: 16px;
-	background-color: #78350f;
-	align-items: center;
-	justify-content: center;
-}
-
-.gold-badge-text {
-	font-size: 9px;
-	font-weight: bold;
-	color: #fef3c7;
+.gold-badge-img {
+	width: 60px;
+	height: 60px;
 }
 
 .banner-text-box {
 	flex: 1;
 	flex-direction: column;
-	margin-left: 8px;
+	margin-left: 10px;
 }
 
 .banner-title {
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 900;
 	color: #451a03;
 }
 
 .banner-sub {
-	font-size: 8px;
+	font-size: 9px;
 	color: #78350f;
-	margin-top: 1px;
+	margin-top: 2px;
 }
 
 .gold-arrow-btn {
-	width: 22px;
-	height: 22px;
-	border-radius: 11px;
+	width: 24px;
+	height: 24px;
+	border-radius: 12px;
 	background-color: #fef3c7;
 	align-items: center;
 	justify-content: center;
 }
 
 .arrow-text {
-	font-size: 12px;
+	font-size: 13px;
 	color: #451a03;
 	font-weight: bold;
 }
 
-/* 代理 Banner */
 .agent-banner {
 	background: linear-gradient(90deg, #1e1b4b 0%, #311b92 100%);
 	border-radius: 12px;
@@ -703,14 +802,15 @@ const onMenuClick = (title: string) => {
 	margin-bottom: 10px;
 }
 
-.gift-icon-box {
-	font-size: 18px;
-	margin-right: 8px;
+.agent-badge-img {
+	width: 60px;
+	height: 60px;
 }
 
 .agent-text-box {
 	flex: 1;
 	flex-direction: column;
+	margin-left: 10px;
 }
 
 .agent-title {
@@ -730,7 +830,6 @@ const onMenuClick = (title: string) => {
 	color: #818cf8;
 }
 
-/* 我的订单 */
 .order-section {
 	background-color: rgba(11, 17, 43, 0.85);
 	border-radius: 12px;
@@ -814,7 +913,6 @@ const onMenuClick = (title: string) => {
 	margin-top: 4px;
 }
 
-/* 底部功能列表 */
 .menu-list {
 	background-color: rgba(11, 17, 43, 0.85);
 	border-radius: 12px;

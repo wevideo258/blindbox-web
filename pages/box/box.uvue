@@ -8,14 +8,14 @@
 			<!-- 2. 覆盖在图片最顶部的 Header -->
 			<view class="nav-header">
 				<text class="back-btn" @click="handleBack">‹</text>
-				<text class="nav-title">盲盒开启</text>
 				<view class="placeholder-box"></view>
 			</view>
 
-			<!-- 3. 覆盖在图片上半部的标语 -->
+			<!-- 3. 覆盖在图片上半部的发光对话框标语（已调整为更紧凑的半透明样式） -->
 			<view class="slogan-box">
-				<text class="slogan-main">请选择你想攻克下的 <text class="highlight-purple">目标大奖</text></text>
-				<text class="slogan-sub">选中后，开始抽奖后的结果会更清晰！</text>
+				<text class="slogan-header-title">盲盒开启</text>
+				<text class="slogan-main">请选择你心仪 <text class="highlight-purple">目标大奖</text></text>
+				<text class="slogan-sub">选中后，开始抽奖后的中奖机率更大！</text>
 			</view>
 
 			<!-- 4. 悬浮在图片两侧的左右切换箭头 -->
@@ -78,7 +78,7 @@
 					</view>
 
 					<view class="remain-badge">
-						<text class="remain-text">剩余 <text class="remain-num">328</text> 次</text>
+						<text class="remain-text">本期剩余 <text class="remain-num">328</text> 次</text>
 					</view>
 				</view>
 
@@ -88,7 +88,7 @@
 				</view>
 
 				<!-- 底部保障提示 -->
-				<text class="guarantee-tips">抽中直接发货  ·  未抽中100%返还等额商城余额</text>
+				<text class="guarantee-tips">抽中直接发货  ·  未抽中100%返还等额余额可提现</text>
 			</view>
 
 			<!-- 底部防遮挡垫高区 -->
@@ -209,36 +209,50 @@ export default {
 	font-weight: bold;
 }
 
-.nav-title {
-	font-size: 16px;
-	font-weight: bold;
-	color: #ffffff;
-}
-
 .placeholder-box {
 	width: 24px;
 }
 
-/* 覆盖在图片上半部的标语 */
+/* 覆盖在图片上半部的标语：调整为紧凑型半透明框 */
 .slogan-box {
 	position: absolute;
-	top: 48px;
-	left: 0px;
-	right: 0px;
+	top: 18px;
+	align-self: center; /* 居中并且自适应文字宽度 */
 	flex-direction: column;
 	align-items: center;
 	z-index: 20;
+
+	/* 紧凑内边距与半透明样式 */
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-left: 16px;
+	padding-right: 16px;
+	border-radius: 12px;
+	background-color: rgba(8, 12, 36, 0.4); /* 提升透明感 */
+	backdrop-filter: blur(8px);
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(168, 85, 247, 0.5);
+	box-shadow: 0 0 10px rgba(168, 85, 247, 0.25), inset 0 0 6px rgba(56, 189, 248, 0.1);
+}
+
+.slogan-header-title {
+	font-size: 15px;
+	font-weight: 900;
+	color: #ffffff;
+	margin-bottom: 4px;
+	letter-spacing: 1px;
 }
 
 .slogan-main {
-	font-size: 16px;
-	font-weight: 900;
+	font-size: 13px;
+	font-weight: bold;
 	color: #ffffff;
 }
 
 .highlight-purple {
-	color: #d8b4fe;
-	background-color: rgba(168, 85, 247, 0.35);
+	color: #e0e7ff;
+	background-color: rgba(168, 85, 247, 0.5);
 	padding-left: 6px;
 	padding-right: 6px;
 	padding-top: 1px;
@@ -247,7 +261,7 @@ export default {
 }
 
 .slogan-sub {
-	font-size: 10px;
+	font-size: 9px;
 	color: #a5b4fc;
 	margin-top: 4px;
 }
