@@ -64,5 +64,15 @@
 			"icons": {},
 			"splashScreens": {}
 		}
+	},
+	"web": {
+		"router": {
+			"mode": "hash",
+			"base": ""
+		},
+		"devServer": {
+			"https": false,
+			"port": "8080"
+		}
 	}
 }

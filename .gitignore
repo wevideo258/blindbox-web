@@ -1,3 +1,9 @@
 unpackage/
 .DS_Store
 .hbuilderx/
+backend/.venv/
+backend/.env
+backend/blindbox.db
+backend/__pycache__/
+**/__pycache__/
+**/*.pyc
